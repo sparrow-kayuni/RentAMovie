@@ -1,0 +1,31 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(uibackground.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+button
+{
+    color: #2c20d3;
+    width: 10%;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    margin: 10px 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.input-box
+{
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 20%;
+    border: 1px solid #999;
+    outline: none;
+}

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\RentAMovie_v3.props" />
+</Project>
