@@ -18,24 +18,8 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return RedirectToAction(nameof(Login));
-    }
+        // check if user has logged in, if not, redirect to login
 
-    [HttpGet]
-    public IActionResult Login()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult Login(string username, string password)
-    {
-        // if (!_loginService.verifyLoginCredentials(username, password))
-        // {
-        //     return View();
-        // }
-
-        // LoginSession session = _loginService.createLoginSession();
         return RedirectToAction(nameof(AdminDash));
     }
 
