@@ -26,14 +26,24 @@ namespace RentAMovie_v3.Controllers
     }
 
     [HttpPost]
-    public IActionResult Index(string username, string password)
+    public async Task<IActionResult> Index(string username, string password)
     {
-        // if (!_loginService.verifyLoginCredentials(username, password))
-        // {
-        //     return View();
-        // }
+        var staffUser = await _context.Staff.FirstOrDefaultAsync(s => s.StaffUserName == username);
 
-        // LoginSession session = _loginService.createLoginSession();
+        // check if user exists
+        if(staffUser == null)
+        {
+            ViewData["Error"] = "Username doesn't exist";
+            return View();
+        }
+
+        // ccheck if password is correct
+        if(staffUser.StaffPassword != password)
+        {
+            ViewData["Error"] = "Password is incorrect";
+            return View();
+        }
+
         return RedirectToAction(nameof(HomeController.AdminDash));
     }
 

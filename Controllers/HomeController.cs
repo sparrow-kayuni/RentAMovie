@@ -7,18 +7,17 @@ namespace RentAMovie_v3.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly ILoginService _loginService;
 
-    public HomeController(ILogger<HomeController> logger, ILoginService loginService)
+    public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        _loginService = loginService;
     }
 
     [HttpGet]
     public IActionResult Index()
     {
         // check if user has logged in, if not, redirect to login
+
 
         return RedirectToAction(nameof(AdminDash));
     }
