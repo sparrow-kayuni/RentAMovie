@@ -30,24 +30,6 @@ namespace RentAMovie_v3.Controllers
     [HttpPost]
     public async Task<IActionResult> Index(string username, string password)
     {
-<<<<<<< HEAD
-        var staffUser = await _context.Staff.FirstOrDefaultAsync(s => s.StaffUserName == username);
-
-        // check if user exists
-        if(staffUser == null)
-        {
-            ViewData["Error"] = "Username doesn't exist";
-            return View();
-        }
-
-        // ccheck if password is correct
-        if(staffUser.StaffPassword != password)
-        {
-            ViewData["Error"] = "Password is incorrect";
-            return View();
-        }
-
-=======
         var staffUser = await _context.Staff.FirstOrDefaultAsync(c => c.StaffUserName == username);
 
         if (staffUser == null)
@@ -74,7 +56,6 @@ namespace RentAMovie_v3.Controllers
         // _context.Add(loginSession);
         // await _context.SaveChangesAsync();
         
->>>>>>> customer
         return RedirectToAction(nameof(HomeController.AdminDash));
     }
 
