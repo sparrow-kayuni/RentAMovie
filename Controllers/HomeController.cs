@@ -7,11 +7,14 @@ namespace RentAMovie_v3.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly RentAmovieSystemMod2Context _context;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, RentAmovieSystemMod2Context context)
     {
         _logger = logger;
+        _context = context;
     }
+
 
     [HttpGet]
     public IActionResult Index()

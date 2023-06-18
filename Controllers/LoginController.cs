@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using RentAMovie_v3.Models;
 
 namespace RentAMovie_v3.Controllers
@@ -28,6 +30,7 @@ namespace RentAMovie_v3.Controllers
     [HttpPost]
     public async Task<IActionResult> Index(string username, string password)
     {
+<<<<<<< HEAD
         var staffUser = await _context.Staff.FirstOrDefaultAsync(s => s.StaffUserName == username);
 
         // check if user exists
@@ -44,6 +47,34 @@ namespace RentAMovie_v3.Controllers
             return View();
         }
 
+=======
+        var staffUser = await _context.Staff.FirstOrDefaultAsync(c => c.StaffUserName == username);
+
+        if (staffUser == null)
+        {
+            return View();
+        }
+
+        if (staffUser.StaffPassword != password)
+        {
+            return View();
+        }
+
+        // HttpContext context = HttpContext.Current;
+        // context.Session["sessionKey"] = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+
+        // LoginSession loginSession = new LoginSession(){
+        //     SessionId = _context.LoginSessions.ToList().Count,
+        //     StaffId = staffUser.StaffId,
+        //     TimeStarted = DateTime.UtcNow,
+        //     TimeEnded = null,
+        //     SessionKey = context.Session["sessionKey"]
+        // };
+
+        // _context.Add(loginSession);
+        // await _context.SaveChangesAsync();
+        
+>>>>>>> customer
         return RedirectToAction(nameof(HomeController.AdminDash));
     }
 

@@ -65,26 +65,25 @@ public partial class RentAmovieSystemMod2Context : DbContext
             entity.Property(e => e.AddressId).HasColumnName("Address_ID");
             entity.Property(e => e.HouseAddress).HasColumnName("House_Address");
             entity.Property(e => e.ZipCode).HasColumnName("ZIP_code");
+            entity.Property(e => e.CustomerId).HasColumnName("Customer_ID");
+
+            entity.HasOne(d => d.Customer).WithOne(p => p.Address).HasForeignKey<Address>(d => d.CustomerId);
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.ToTable("CUSTOMER ");
 
-            entity.HasIndex(e => e.AddressId, "IX_CUSTOMER _Address_Id").IsUnique();
-
             entity.HasIndex(e => e.CustomerId, "IX_CUSTOMER _Customer_ID").IsUnique();
 
             entity.HasIndex(e => e.PhoneNo, "IX_CUSTOMER _Phone_No").IsUnique();
 
             entity.Property(e => e.CustomerId).HasColumnName("Customer_ID");
-            entity.Property(e => e.AddressId).HasColumnName("Address_Id");
             entity.Property(e => e.FName).HasColumnName("F_Name");
             entity.Property(e => e.LName).HasColumnName("L_Name");
             entity.Property(e => e.MName).HasColumnName("M_Name");
             entity.Property(e => e.PhoneNo).HasColumnName("Phone_No");
 
-            entity.HasOne(d => d.Address).WithOne(p => p.Customer).HasForeignKey<Customer>(d => d.AddressId);
         });
 
         modelBuilder.Entity<Genre>(entity =>
@@ -117,6 +116,7 @@ public partial class RentAmovieSystemMod2Context : DbContext
             entity.Property(e => e.StaffId).HasColumnName("Staff_ID");
             entity.Property(e => e.TimeEnded).HasColumnName("Time_Ended");
             entity.Property(e => e.TimeStarted).HasColumnName("Time_Started");
+            entity.Property(e => e.SessionKey).HasColumnName("Session_Key");
 
             entity.HasOne(d => d.Staff).WithOne(p => p.LoginSession)
                 .HasForeignKey<LoginSession>(d => d.StaffId)

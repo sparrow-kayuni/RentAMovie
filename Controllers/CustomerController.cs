@@ -21,7 +21,7 @@ namespace RentAMovie_v3.Controllers
         // GET: Customer
         public async Task<IActionResult> Index()
         {
-            var rentAmovieSystemMod2Context = _context.Customers.Include(c => c.Address);
+            var rentAmovieSystemMod2Context = _context.Customers;
             return View(await rentAmovieSystemMod2Context.ToListAsync());
         }
 
@@ -47,7 +47,10 @@ namespace RentAMovie_v3.Controllers
         // GET: Customer/Create
         public IActionResult Create()
         {
-            ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId");
+            // ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId");
+            ViewData["HouseAddress"] = "";
+            ViewData["ZipCode"] = "";
+            ViewData["City"] = "";
             return View();
         }
 
@@ -56,15 +59,27 @@ namespace RentAMovie_v3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FName,MName,LName,Email,PhoneNo,AddressId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,FName,MName,LName,Email,PhoneNo")] Customer customer,
+        [Bind("AddressId,HouseAddress,ZipCode,City,CustomerId")] Address address)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                try{
+                    customer.Address = address;
+                    address.Customer = customer;
+                    
+                    _context.Add(customer);
+                    _context.Add(address);
+
+                    await _context.SaveChangesAsync();
+
+                } catch(DbUpdateConcurrencyException)
+                {
+                    Console.WriteLine("An error saving happened");
+                }
+                
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId", customer.AddressId);
             return View(customer);
         }
 
@@ -81,7 +96,7 @@ namespace RentAMovie_v3.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId", customer.AddressId);
+            
             return View(customer);
         }
 
@@ -117,7 +132,6 @@ namespace RentAMovie_v3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "AddressId", customer.AddressId);
             return View(customer);
         }
 

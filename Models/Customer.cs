@@ -17,8 +17,6 @@ public partial class Customer
 
     public long PhoneNo { get; set; }
 
-    public long? AddressId { get; set; }
-
     public virtual Address? Address { get; set; }
 
     public virtual ICollection<RentalTransaction> RentalTransactions { get; set; } = new List<RentalTransaction>();

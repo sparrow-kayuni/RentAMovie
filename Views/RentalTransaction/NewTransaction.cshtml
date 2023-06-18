@@ -1,0 +1,39 @@
+@model IEnumerable<RentAMovie_v3.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Customers</h1>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<form asp-controller="RentalTransaction" asp-action="NewTransaction">
+    <p>
+        Search: <input type="text" name="SearchString" placeholder="Search Customer By Last Name" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+<div class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center" style="flex-direction: column">
+        @foreach (var item in Model) {
+        @* <a > *@
+            <a class="card p-2 my-2 w-75" asp-action="SelectMovie" asp-route-id="@item.CustomerId">
+                <div class="">
+                    @Html.DisplayFor(modelItem => item.FName) @Html.DisplayFor(modelItem => item.MName) @Html.DisplayFor(modelItem => item.LName)
+                </div>
+                <div class="">
+                    @Html.DisplayFor(modelItem => item.Email) @Html.DisplayFor(modelItem => item.PhoneNo)
+                </div>
+                <div class="">
+                    @Html.DisplayFor(modelItem => item.Address.City)
+                </div>
+                @* <td>
+                    <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                </td> *@
+            </a> 
+        }
+    </div>
