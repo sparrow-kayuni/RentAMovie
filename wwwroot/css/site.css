@@ -25,6 +25,7 @@ body {
   background-image: url(uibackground.jpg);
   background-size: cover;
   background-position: center;
+  color: white;
 }
 
 .sign-up-form
