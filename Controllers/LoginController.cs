@@ -87,6 +87,28 @@ namespace RentAMovie_v3.Controllers
             }            
         }
         
+        // GET: Login
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            TempData.Keep("Session_Key");
+            // If session key doesnt exist, redirect to login page
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            // set the time session has ended 
+            var loginSession = await _context.LoginSessions
+            .FirstOrDefaultAsync(m => String.Equals(m.SessionKey, TempData["Session_Key"].ToString()));
+
+            loginSession.TimeEnded = DateTime.UtcNow;
+            _context.Update(loginSession);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Login");
+        }
 
         // GET: Login/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -108,10 +130,10 @@ namespace RentAMovie_v3.Controllers
         }
 
 
-    public bool SessionExists(string key)
-    {
-        return _context.LoginSessions
-            .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
-    }
+        public bool SessionExists(string key)
+        {
+            return _context.LoginSessions
+                .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
+        }
     }
 }
