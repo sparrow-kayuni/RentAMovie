@@ -3,11 +3,20 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    * {
+        color: black;
+    }
 
-<h1>Customers</h1>
+    h1 {
+        color: white;
+    }
+</style>
+
+<h1>Select Customer</h1>
 
 <p>
-    <a asp-action="Create">Add New</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Customer">Add New</a>
 </p>
 <form asp-controller="RentalTransaction" asp-action="NewTransaction">
     <p>

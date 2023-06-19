@@ -12,6 +12,7 @@ namespace RentAMovie_v3.Controllers
     public class RentalTransactionController : Controller
     {
         private readonly RentAmovieSystemMod2Context _context;
+        private Customer currentCustomer;
 
         public RentalTransactionController(RentAmovieSystemMod2Context context)
         {
@@ -23,6 +24,45 @@ namespace RentAMovie_v3.Controllers
         {
             var rentAmovieSystemMod2Context = _context.RentalTransactions.Include(r => r.Customer).Include(r => r.Movie).Include(r => r.Session);
             return View(await rentAmovieSystemMod2Context.ToListAsync());
+        }
+
+        // Create a new Rental transaction
+        public async Task<IActionResult> NewTransaction(string searchString, long id = 0)
+        {
+            // check if customers list is empty
+            if (_context.Customers == null)
+             {
+                     return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
+             }
+
+            var rentAmovieSystemContext = from m in _context.Customers.Include(c => c.Address)
+            select m;
+    
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                    rentAmovieSystemContext = rentAmovieSystemContext.Where(s => s.LName!.Contains(searchString) || s.FName!.Contains(searchString));
+            }
+
+            // if a customer id is given, query the customers table for the customer
+            if (id != 0)
+            {
+                currentCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
+            }
+
+            return View(await rentAmovieSystemContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> SelectMovie(long? id)
+        {
+            if (_context.Movies == null)
+            {
+                return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
+            }
+
+            var rentAmovieSystemContext = from m in _context.Movies
+            select m;
+            
+            return View("SelectMovie", await rentAmovieSystemContext.ToListAsync());
         }
 
         // GET: RentalTransaction/Details/5

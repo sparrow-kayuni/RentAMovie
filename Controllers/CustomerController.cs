@@ -83,6 +83,7 @@ namespace RentAMovie_v3.Controllers
         public async Task<IActionResult> Create([Bind("CustomerId,FName,MName,LName,Email,PhoneNo")] Customer customer,
         [Bind("AddressId,HouseAddress,ZipCode,City,CustomerId")] Address address)
         {
+            // let the session key persist after use
             TempData.Keep("Session_Key");
 
             if(!SessionExists(TempData["Session_Key"].ToString()))

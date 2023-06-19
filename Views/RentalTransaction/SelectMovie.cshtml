@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Select Movie</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -19,7 +19,7 @@
     <div class="col-12 d-flex justify-content-center align-items-center" style="flex-direction: column;">
         @foreach (var item in Model) {
             <div class="card p-2 my-2 w-75 d-flex justify-content-between" style="flex-direction: row;">
-                <div class="">
+                <div class="" style="color: black;">
                     @Html.DisplayFor(modelItem => item.Title) @Html.DisplayFor(modelItem => item.YearOfRelease)
                 </div>
                 <div>

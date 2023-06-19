@@ -1,13 +1,18 @@
 @model IEnumerable<RentAMovie_v3.Models.Customer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Customers";
 }
 
-<h1>Index</h1>
+<h1>Customers</h1>
 
+<style>
+    td, tr{
+        color: black;
+    }
+</style>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">New Customer</a>
 </p>
 <table class="table">
     <thead>
