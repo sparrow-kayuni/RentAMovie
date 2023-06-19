@@ -15,20 +15,19 @@ public class HomeController : Controller
         _context = context;
     }
 
-
     [HttpGet]
     public IActionResult Index()
-    {
-        // check if user has logged in, if not, redirect to login
+    {      
+        // Check if user has loggged in, if not, redirect to Login page
+        TempData.Keep("Session_Key");
+        Console.WriteLine("Session: {0}", TempData["Session_Key"].ToString());
 
+        if(!SessionExists(TempData["Session_Key"].ToString()))
+        {
+            return RedirectToAction("Index", "Login");
+        }
 
-        return RedirectToAction(nameof(AdminDash));
-    }
-
-    [HttpGet]
-    public IActionResult AdminDash()
-    {
-        return View();
+        return View();        
     }
 
     public IActionResult Privacy()
@@ -40,5 +39,11 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public bool SessionExists(string key)
+    {
+        return _context.LoginSessions
+            .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
     }
 }

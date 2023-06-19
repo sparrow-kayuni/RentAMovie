@@ -108,7 +108,7 @@ public partial class RentAmovieSystemMod2Context : DbContext
 
             entity.HasIndex(e => e.SessionId, "IX_LOGIN_SESSION_Session_ID").IsUnique();
 
-            entity.HasIndex(e => e.StaffId, "IX_LOGIN_SESSION_Staff_ID").IsUnique();
+            entity.HasIndex(e => e.SessionKey, "IX_LOGIN_SESSION_Session_Key").IsUnique();
 
             entity.Property(e => e.SessionId)
                 .ValueGeneratedNever()

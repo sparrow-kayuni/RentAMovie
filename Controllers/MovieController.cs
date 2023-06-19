@@ -21,14 +21,28 @@ namespace RentAMovie_v3.Controllers
         // GET: Movie
         public async Task<IActionResult> Index()
         {
-              return _context.Movies != null ? 
-                          View(await _context.Movies.ToListAsync()) :
-                          Problem("Entity set 'RentAmovieSystemMod2Context.Movies'  is null.");
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
+            return _context.Movies != null ? 
+                        View(await _context.Movies.ToListAsync()) :
+                        Problem("Entity set 'RentAmovieSystemMod2Context.Movies'  is null.");
         }
 
         // GET: Movie/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.Movies == null)
             {
                 return NotFound();
@@ -47,6 +61,13 @@ namespace RentAMovie_v3.Controllers
         // GET: Movie/Create
         public IActionResult Create()
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View();
         }
 
@@ -57,6 +78,13 @@ namespace RentAMovie_v3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MovieId,Title,YearOfRelease,UnitPrice")] Movie movie)
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(movie);
@@ -69,6 +97,13 @@ namespace RentAMovie_v3.Controllers
         // GET: Movie/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.Movies == null)
             {
                 return NotFound();
@@ -89,6 +124,13 @@ namespace RentAMovie_v3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("MovieId,Title,YearOfRelease,UnitPrice")] Movie movie)
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id != movie.MovieId)
             {
                 return NotFound();
@@ -120,6 +162,13 @@ namespace RentAMovie_v3.Controllers
         // GET: Movie/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.Movies == null)
             {
                 return NotFound();
@@ -140,6 +189,13 @@ namespace RentAMovie_v3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            TempData.Keep("Session_Key");
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (_context.Movies == null)
             {
                 return Problem("Entity set 'RentAmovieSystemMod2Context.Movies'  is null.");
@@ -157,6 +213,12 @@ namespace RentAMovie_v3.Controllers
         private bool MovieExists(long id)
         {
           return (_context.Movies?.Any(e => e.MovieId == id)).GetValueOrDefault();
+        }
+
+        public bool SessionExists(string key)
+        {
+            return _context.LoginSessions
+                .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
         }
     }
 }

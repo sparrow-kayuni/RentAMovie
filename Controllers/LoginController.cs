@@ -18,46 +18,75 @@ namespace RentAMovie_v3.Controllers
         public LoginController(RentAmovieSystemMod2Context context)
         {
             _context = context;
+            // 
         }
 
         // GET: Login
-    [HttpGet]
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Index(string username, string password)
-    {
-        var staffUser = await _context.Staff.FirstOrDefaultAsync(c => c.StaffUserName == username);
-
-        if (staffUser == null)
+        [HttpGet]
+        public IActionResult Index()
         {
+            TempData["Session_Key"] = "";
+            
             return View();
         }
 
-        if (staffUser.StaffPassword != password)
+        [HttpPost]
+        public async Task<IActionResult> Index(string username, string password)
         {
-            return View();
+            var staffUser = await _context.Staff.FirstOrDefaultAsync(c => c.StaffUserName == username);
+
+            if (staffUser == null)
+            {
+                return View();
+            }
+
+            if (!String.Equals(staffUser.StaffPassword, password))
+            {
+                return View();
+            }
+
+            var id = _context.LoginSessions.Count();
+
+            var loginSession = new LoginSession(){
+                TimeStarted = DateTime.UtcNow,
+                SessionKey = GenerateRandomString(5),
+                SessionId = id + 1,
+                Staff = staffUser
+            };
+
+            _context.Add(loginSession);
+            await _context.SaveChangesAsync();
+
+            TempData["Session_Key"] = loginSession.SessionKey;
+            
+            return Redirect(String.Format("Home"));
         }
 
-        // HttpContext context = HttpContext.Current;
-        // context.Session["sessionKey"] = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        // Generates a random striing for a given input
+        private string GenerateRandomString(int length)
+        {
+            string chars = "ABCDEFGHIJKKLIMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        // LoginSession loginSession = new LoginSession(){
-        //     SessionId = _context.LoginSessions.ToList().Count,
-        //     StaffId = staffUser.StaffId,
-        //     TimeStarted = DateTime.UtcNow,
-        //     TimeEnded = null,
-        //     SessionKey = context.Session["sessionKey"]
-        // };
+            var random = new Random();
+            string randomString;
 
-        // _context.Add(loginSession);
-        // await _context.SaveChangesAsync();
+            while(true)
+            {
+                var randomChars = new char[length];
+                
+                for (int i = 0; i < length; i++)
+                {
+                    randomChars[i] = chars[random.Next(0, 62)];
+                }
+                
+                randomString = new String(randomChars);
+
+                if(!SessionExists(randomString)){
+                    return randomString;
+                }
+            }            
+        }
         
-        return RedirectToAction(nameof(HomeController.AdminDash));
-    }
 
         // GET: Login/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -78,124 +107,11 @@ namespace RentAMovie_v3.Controllers
             return View(loginSession);
         }
 
-        // GET: Login/Create
-        public IActionResult Create()
-        {
-            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId");
-            return View();
-        }
 
-        // POST: Login/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SessionId,TimeStarted,TimeEnded,StaffId")] LoginSession loginSession)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(loginSession);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId", loginSession.StaffId);
-            return View(loginSession);
-        }
-
-        // GET: Login/Edit/5
-        public async Task<IActionResult> Edit(long? id)
-        {
-            if (id == null || _context.LoginSessions == null)
-            {
-                return NotFound();
-            }
-
-            var loginSession = await _context.LoginSessions.FindAsync(id);
-            if (loginSession == null)
-            {
-                return NotFound();
-            }
-            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId", loginSession.StaffId);
-            return View(loginSession);
-        }
-
-        // POST: Login/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("SessionId,TimeStarted,TimeEnded,StaffId")] LoginSession loginSession)
-        {
-            if (id != loginSession.SessionId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(loginSession);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LoginSessionExists(loginSession.SessionId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId", loginSession.StaffId);
-            return View(loginSession);
-        }
-
-        // GET: Login/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.LoginSessions == null)
-            {
-                return NotFound();
-            }
-
-            var loginSession = await _context.LoginSessions
-                .Include(l => l.Staff)
-                .FirstOrDefaultAsync(m => m.SessionId == id);
-            if (loginSession == null)
-            {
-                return NotFound();
-            }
-
-            return View(loginSession);
-        }
-
-        // POST: Login/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            if (_context.LoginSessions == null)
-            {
-                return Problem("Entity set 'RentAmovieSystemMod2Context.LoginSessions'  is null.");
-            }
-            var loginSession = await _context.LoginSessions.FindAsync(id);
-            if (loginSession != null)
-            {
-                _context.LoginSessions.Remove(loginSession);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool LoginSessionExists(long id)
-        {
-          return (_context.LoginSessions?.Any(e => e.SessionId == id)).GetValueOrDefault();
-        }
+    public bool SessionExists(string key)
+    {
+        return _context.LoginSessions
+            .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
+    }
     }
 }
