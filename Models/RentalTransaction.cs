@@ -9,7 +9,7 @@ public partial class RentalTransaction
 
     public DateTime RentalDay { get; set; }
 
-    public DateTime ReturnDate { get; set; }
+    public DateTime? ReturnDate { get; set; } = null;
 
     public long? CustomerId { get; set; }
 
