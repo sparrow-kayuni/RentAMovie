@@ -16,6 +16,8 @@ namespace RentAMovie_v3.Controllers
 
         private RentalTransaction currentTransaction;
         private List<RentalTransaction> rentalTransactions;
+        private ItemList<Movie> moviesList = new ItemList<Movie>(); 
+        private LoginSession session;
 
         public RentalTransactionController(RentAmovieSystemMod2Context context)
         {
@@ -50,14 +52,12 @@ namespace RentAMovie_v3.Controllers
             TempData.Keep("Session_Key");
             Console.WriteLine("Session: {0}", TempData["Session_Key"].ToString());
 
-            ViewData["Rental_Transactions"] = new List<RentalTransaction>();
-
             if(!SessionExists(TempData["Session_Key"].ToString()))
             {
                 return RedirectToAction("Index", "Login");
             }
 
-            var session = _context.LoginSessions
+            session = await _context.LoginSessions
                 .FirstOrDefaultAsync(m => String.Equals(m.SessionKey, TempData["Session_Key"]
                 .ToString()));
 
@@ -81,6 +81,8 @@ namespace RentAMovie_v3.Controllers
                 currentCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
             }
 
+            rentalTransactions = new List<RentalTransaction>();
+
             int pageSize =  20;
 
             return View(await PaginatedList<Customer>
@@ -90,13 +92,14 @@ namespace RentAMovie_v3.Controllers
         public async Task<IActionResult> SelectMovie(
             long? id, 
             string searchString, 
-            long movieId,
+            long? movieId,
+            long? rentalId,
             int? pageNumber)
         {
-            // Check if user has loggged in, if not, redirect to Login page
             TempData.Keep("Session_Key");
             Console.WriteLine("Session: {0}", TempData["Session_Key"].ToString());
-
+            
+            // Check if user has loggged in, if not, redirect to Login page
             if(!SessionExists(TempData["Session_Key"].ToString()))
             {
                 return RedirectToAction("Index", "Login");
@@ -107,25 +110,77 @@ namespace RentAMovie_v3.Controllers
             {
                 return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
             }
-
+            
+            // Get all movies
             var movies = from m in _context.Movies select m;
-    
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                movies = movies.Where(s => s.Title!.Contains(searchString));
-                Console.WriteLine("Movies count: {0}\nSearch String: {1}", movies.Count(), searchString);
-            }
 
             // if a customer id is given, query the customers table for the customer
             if (id != 0)
             {
-                currentCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
+                currentCustomer = _context.Customers.FirstOrDefault(c => c.CustomerId == id);
             }
 
+            // when moie is searched for
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title!.Contains(searchString));
+            }
+            
+            var session = await _context.LoginSessions.FirstOrDefaultAsync(m => m.SessionKey == TempData["Session_Key"].ToString());
+            
+            // if a movie is added 
+            if(movieId != null)
+            {
+                // if a rental id is gien, delete it
+                if(rentalId != null)
+                {
+                    var rentalTxn = await _context.RentalTransactions
+                    .FirstOrDefaultAsync(m => m.RentalId == rentalId && 
+                    m.MovieId == movieId && m.CustomerId == currentCustomer.CustomerId);
+                    
+                    _context.RentalTransactions.Remove(rentalTxn);
+                    
+                    await _context.SaveChangesAsync();
+                } 
+                else 
+                {
+                    var movie = await _context.Movies.FirstOrDefaultAsync(m => m.MovieId == movieId);
+                    
+                    // Create rental transaction then add in to renta transactions list
+                    var rental = new RentalTransaction(){
+                        Movie = movie,
+                        Customer = currentCustomer,
+                        Session = session,
+                        RentalDay = DateTime.Today,
+                        RentalId = _context.RentalTransactions.Count() + 1
+                    };
+
+                    if (rental != null)
+                    {
+                        var rentalExists = _context.RentalTransactions
+                        .Any(m => m.CustomerId == currentCustomer.CustomerId && m.MovieId == movie.MovieId);
+
+                        if (!rentalExists)
+                        {
+                            _context.Add(rental);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+                
+                // Get current movie and session
+                moviesList.Transactions = _context.RentalTransactions
+                    .Where(m => String.Equals(m.Session.SessionKey, session.SessionKey) 
+                    && m.CustomerId == currentCustomer.CustomerId).ToList();       
+                
+            }
+            
+            moviesList.SetItems(movies.ToList());
+
+            // number of results displayed
             int pageSize =  20;
 
-            return View(await PaginatedList<Movie>
-            .CreateAsync(movies.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(moviesList);
         }
 
         // GET: RentalTransaction/Details/5

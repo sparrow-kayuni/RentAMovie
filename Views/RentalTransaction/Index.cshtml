@@ -40,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerId)
+                @Html.DisplayFor(modelItem => item.Customer.FName) @Html.DisplayFor(modelItem => item.Customer.LName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.MovieId)
+                @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Session.SessionId)
+                @Html.DisplayFor(modelItem => item.Session.SessionKey)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RentalId">Edit</a> |
