@@ -6,14 +6,15 @@
 
 <h1>Customers</h1>
 
+<p>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Customer">Add New</a>
+</p>
+
 <style>
     .customer-data {
         color: black;
     }
 </style>
-<p>
-    <a class="btn btn-primary" asp-action="Create">New Customer</a>
-</p>
 <form asp-controller="Customer" asp-action="Index">
     <p>
         Search: <input style="color: black" type="text" name="SearchString" placeholder="Search Customer By Last Name" />
