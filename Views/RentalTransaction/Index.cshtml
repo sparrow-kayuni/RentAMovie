@@ -4,6 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .none {
+        display: none;
+    }
+</style>
+
 <h1>Rental Transactions</h1>
 
 <p>
@@ -25,14 +31,16 @@
                 @Html.DisplayNameFor(model => model.Movie)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session)
+                @Html.DisplayNameFor(model => model.Session.Staff)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        string returned = item.ReturnDate == null ? "" : "none";
+
+        <tr> 
             <td>
                 @Html.DisplayFor(modelItem => item.RentalDay)
             </td>
@@ -40,18 +48,18 @@
                 @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerId)
+                @Html.DisplayFor(modelItem => item.Customer.FName) @Html.DisplayFor(modelItem => item.Customer.LName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.MovieId)
+                @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Session.SessionId)
+                @Html.DisplayFor(modelItem => item.Session.Staff.StaffUserName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RentalId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RentalId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RentalId">Delete</a>
+                
+                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.RentalId">Details</a>
+                <span class="@returned">| <a class="btn btn-primary" asp-action="ReturnBook" asp-route-id="@item.RentalId">Return</a></span>
             </td>
         </tr>
 }

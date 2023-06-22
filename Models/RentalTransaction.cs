@@ -7,9 +7,9 @@ public partial class RentalTransaction
 {
     public long RentalId { get; set; }
 
-    public string RentalDay { get; set; } = null!;
+    public DateTime RentalDay { get; set; }
 
-    public string ReturnDate { get; set; } = null!;
+    public DateTime? ReturnDate { get; set; } = null;
 
     public long? CustomerId { get; set; }
 

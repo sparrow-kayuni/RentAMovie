@@ -19,7 +19,11 @@ namespace RentAMovie_v3.Controllers
         }
 
         // GET: Customer
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? pageNumber)
         {
             TempData.Keep("Session_Key");
 
@@ -28,8 +32,22 @@ namespace RentAMovie_v3.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var rentAmovieSystemMod2Context = _context.Customers;
-            return View(await rentAmovieSystemMod2Context.ToListAsync());
+            if(searchString != null)
+            {
+                pageNumber = 1;
+            }
+
+            var customers = from c in _context.Customers select c;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(s => s.LName!.Contains(searchString) || s.FName!.Contains(searchString));
+            }
+
+            int pageSize =  20;
+
+            return View(await PaginatedList<Customer>
+            .CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Customer/Details/5
@@ -107,7 +125,8 @@ namespace RentAMovie_v3.Controllers
                     Console.WriteLine("An error saving happened");
                 }
                 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("SelectMovie", "RentalTransaction", 
+                new { id = customer.CustomerId });
             }
             return View(customer);
         }

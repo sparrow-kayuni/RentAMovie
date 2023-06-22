@@ -1,4 +1,4 @@
-@model IEnumerable<RentAMovie_v3.Models.Customer>
+@model PaginatedList<RentAMovie_v3.Models.Customer>
 
 @{
     ViewData["Title"] = "Customers";
@@ -6,65 +6,43 @@
 
 <h1>Customers</h1>
 
+<p>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Customer">Add New</a>
+</p>
+
 <style>
-    td, tr{
+    .customer-data {
         color: black;
     }
 </style>
-<p>
-    <a class="btn btn-primary" asp-action="Create">New Customer</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.City)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<form asp-controller="Customer" asp-action="Index">
+    <p>
+        Search: <input style="color: black" type="text" name="SearchString" placeholder="Search Customer By Last Name" />
+        <input style="color: black" type="submit" value="Search" />
+    </p>
+</form>
+<div class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center" style="flex-direction: column">
+        @foreach (var item in Model) {
+        @* <a > *@
+            <div class="card p-2 my-2 w-75" style="display: flex; flex-direction: row; justify-content: space-between;">
+                <a asp-action="Details" asp-route-id="@item.CustomerId">
+                    <div class="customer-data">
+                        @Html.DisplayFor(modelItem => item.FName) @Html.DisplayFor(modelItem => item.MName) @Html.DisplayFor(modelItem => item.LName)
+                    </div>
+                    <div class="customer-data">
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </div>
+                    <div class="customer-data">
+                        @Html.DisplayFor(modelItem => item.Address.City)
+                    </div>
+                </a>
+                <div style="display: flex; justify-content: center;">
+                    <a class="btn btn-secondary mx-1" asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>  
+                </div>
+                    
+            </div>
+        }
+    </div>
+</div>

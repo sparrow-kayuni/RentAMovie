@@ -14,6 +14,11 @@ namespace RentAMovie_v3.Controllers
         private readonly RentAmovieSystemMod2Context _context;
         private Customer currentCustomer;
 
+        private RentalTransaction currentTransaction;
+        private List<RentalTransaction> rentalTransactions;
+        private ItemList<Movie> moviesList = new ItemList<Movie>(); 
+        private LoginSession session;
+
         public RentalTransactionController(RentAmovieSystemMod2Context context)
         {
             _context = context;
@@ -22,25 +27,68 @@ namespace RentAMovie_v3.Controllers
         // GET: RentalTransaction
         public async Task<IActionResult> Index()
         {
-            var rentAmovieSystemMod2Context = _context.RentalTransactions.Include(r => r.Customer).Include(r => r.Movie).Include(r => r.Session);
-            return View(await rentAmovieSystemMod2Context.ToListAsync());
+            // Check if user has loggged in, if not, redirect to Login page
+            TempData.Keep("Session_Key");
+            Console.WriteLine("Session: {0}", TempData["Session_Key"].ToString());
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var rentalTransactions = _context.RentalTransactions.Include(r => r.Customer)
+            .Include(r => r.Movie).Include(r => r.Session);
+            return View(await rentalTransactions.ToListAsync());
+        }
+
+        public async Task<IActionResult> ReturnBook(long id)
+        {
+            if(id != 0)
+            {
+                var rental = _context.RentalTransactions.FirstOrDefault(m => m.RentalId == id);
+                rental.ReturnDate = DateTime.UtcNow;
+
+                _context.RentalTransactions.Update(rental);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+
         }
 
         // Create a new Rental transaction
-        public async Task<IActionResult> NewTransaction(string searchString, long id = 0)
+        public async Task<IActionResult> NewTransaction(
+            string searchString, 
+            string sortOrder,
+            string currentFilter,
+            int? pageNumber,
+            long id = 0)
         {
+            // Check if user has loggged in, if not, redirect to Login page
+            TempData.Keep("Session_Key");
+            Console.WriteLine("Session: {0}", TempData["Session_Key"].ToString());
+
+            if(!SessionExists(TempData["Session_Key"].ToString()))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            session = await _context.LoginSessions
+                .FirstOrDefaultAsync(m => String.Equals(m.SessionKey, TempData["Session_Key"]
+                .ToString()));
+
             // check if customers list is empty
             if (_context.Customers == null)
              {
                      return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
              }
 
-            var rentAmovieSystemContext = from m in _context.Customers.Include(c => c.Address)
+            var customers = from m in _context.Customers.Include(c => c.Address)
             select m;
     
             if (!String.IsNullOrEmpty(searchString))
             {
-                    rentAmovieSystemContext = rentAmovieSystemContext.Where(s => s.LName!.Contains(searchString) || s.FName!.Contains(searchString));
+                customers = customers.Where(s => s.LName!.Contains(searchString) || s.FName!.Contains(searchString));
             }
 
             // if a customer id is given, query the customers table for the customer
@@ -49,20 +97,127 @@ namespace RentAMovie_v3.Controllers
                 currentCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
             }
 
-            return View(await rentAmovieSystemContext.ToListAsync());
+            rentalTransactions = new List<RentalTransaction>();
+
+            int pageSize =  20;
+
+            return View(await PaginatedList<Customer>
+            .CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        public async Task<IActionResult> SelectMovie(long? id)
+        public async Task<IActionResult> SelectMovie(
+            long? id, 
+            string searchString, 
+            long? movieId,
+            long? rentalId,
+            int? pageNumber)
         {
+            string key = TempData["Session_Key"].ToString();
+            ViewData["Error_Message"] = "";
+            
+            TempData.Keep("Session_Key");
+
+            Console.WriteLine("Session: {0}", key);
+            
+            // Check if user has loggged in, if not, redirect to Login page
+            if(!SessionExists(key))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            // get current session
+            var session = _context.LoginSessions.Include(r => r.Staff)
+            .FirstOrDefault(m => String.Equals(m.SessionKey, key));
+            
+            System.Console.WriteLine("Session User: {0}", session.Staff.StaffUserName);
+
+            // Check if there are movies available
             if (_context.Movies == null)
             {
                 return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
             }
-
-            var rentAmovieSystemContext = from m in _context.Movies
-            select m;
             
-            return View("SelectMovie", await rentAmovieSystemContext.ToListAsync());
+            // Get all movies
+            var movies = from m in _context.Movies select m;
+
+            // if a customer id is given, query the customers table for the customer
+            if (id != 0)
+            {
+                currentCustomer = _context.Customers.FirstOrDefault(c => c.CustomerId == id);
+            }
+
+            // when moie is searched for
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title!.Contains(searchString));
+            }
+
+            // if a movie is added 
+            if(movieId != null)
+            {
+                // if a rental id is given, delete it
+                if(rentalId != null)
+                {
+                    var rentalTxn = await _context.RentalTransactions
+                    .FirstOrDefaultAsync(m => m.RentalId == rentalId && 
+                    m.MovieId == movieId && m.CustomerId == currentCustomer.CustomerId);
+                    
+                    _context.RentalTransactions.Remove(rentalTxn);
+                    
+                    await _context.SaveChangesAsync();
+                } 
+                else 
+                {
+                    var movie = await _context.Movies.FirstOrDefaultAsync(m => m.MovieId == movieId);
+                    
+                    var maxIdNo = 1L;
+
+                    if(_context.RentalTransactions.Count() > 0){
+                        maxIdNo = _context.RentalTransactions.Max(m => m.RentalId) + 1;
+                    }
+
+                    // Create rental transaction then add in to renta transactions list
+                    var rental = new RentalTransaction(){
+                        Movie = movie,
+                        Customer = currentCustomer,
+                        Session = session,
+                        RentalDay = DateTime.UtcNow,
+                        RentalId = maxIdNo,
+                    };
+
+                    if (rental != null)
+                    {
+                        var rentalExists = _context.RentalTransactions
+                        .Any(m => m.MovieId == movie.MovieId && m.ReturnDate == null);
+
+                        if (!rentalExists)
+                        {
+                            _context.Add(rental);
+                            // Console.WriteLine("Rental ID: {0}", rental.RentalId);
+                            await _context.SaveChangesAsync();
+                            
+                            ViewData["Error_Message"] = "";
+                        }
+                        else
+                        {
+                            ViewData["Error_Message"] = "Movie is been rented!";
+                        }
+                    }
+                }
+                
+                // Get current movie and session
+                moviesList.Transactions = _context.RentalTransactions
+                    .Where(m => String.Equals(m.Session.SessionKey, session.SessionKey) 
+                    && m.CustomerId == currentCustomer.CustomerId).ToList();       
+                
+            }
+            
+            moviesList.SetItems(movies.ToList());
+
+            // number of results displayed
+            int pageSize =  20;
+
+            return View(moviesList);
         }
 
         // GET: RentalTransaction/Details/5
@@ -77,6 +232,7 @@ namespace RentAMovie_v3.Controllers
                 .Include(r => r.Customer)
                 .Include(r => r.Movie)
                 .Include(r => r.Session)
+                .Include(r => r.Session.Staff)
                 .FirstOrDefaultAsync(m => m.RentalId == id);
             if (rentalTransaction == null)
             {
@@ -86,134 +242,16 @@ namespace RentAMovie_v3.Controllers
             return View(rentalTransaction);
         }
 
-        // GET: RentalTransaction/Create
-        public IActionResult Create()
-        {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId");
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId");
-            ViewData["SessionId"] = new SelectList(_context.LoginSessions, "SessionId", "SessionId");
-            return View();
-        }
-
-        // POST: RentalTransaction/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalId,RentalDay,ReturnDate,CustomerId,SessionId,MovieId")] RentalTransaction rentalTransaction)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(rentalTransaction);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalTransaction.CustomerId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalTransaction.MovieId);
-            ViewData["SessionId"] = new SelectList(_context.LoginSessions, "SessionId", "SessionId", rentalTransaction.SessionId);
-            return View(rentalTransaction);
-        }
-
-        // GET: RentalTransaction/Edit/5
-        public async Task<IActionResult> Edit(long? id)
-        {
-            if (id == null || _context.RentalTransactions == null)
-            {
-                return NotFound();
-            }
-
-            var rentalTransaction = await _context.RentalTransactions.FindAsync(id);
-            if (rentalTransaction == null)
-            {
-                return NotFound();
-            }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalTransaction.CustomerId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalTransaction.MovieId);
-            ViewData["SessionId"] = new SelectList(_context.LoginSessions, "SessionId", "SessionId", rentalTransaction.SessionId);
-            return View(rentalTransaction);
-        }
-
-        // POST: RentalTransaction/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("RentalId,RentalDay,ReturnDate,CustomerId,SessionId,MovieId")] RentalTransaction rentalTransaction)
-        {
-            if (id != rentalTransaction.RentalId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(rentalTransaction);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RentalTransactionExists(rentalTransaction.RentalId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalTransaction.CustomerId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalTransaction.MovieId);
-            ViewData["SessionId"] = new SelectList(_context.LoginSessions, "SessionId", "SessionId", rentalTransaction.SessionId);
-            return View(rentalTransaction);
-        }
-
-        // GET: RentalTransaction/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.RentalTransactions == null)
-            {
-                return NotFound();
-            }
-
-            var rentalTransaction = await _context.RentalTransactions
-                .Include(r => r.Customer)
-                .Include(r => r.Movie)
-                .Include(r => r.Session)
-                .FirstOrDefaultAsync(m => m.RentalId == id);
-            if (rentalTransaction == null)
-            {
-                return NotFound();
-            }
-
-            return View(rentalTransaction);
-        }
-
-        // POST: RentalTransaction/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            if (_context.RentalTransactions == null)
-            {
-                return Problem("Entity set 'RentAmovieSystemMod2Context.RentalTransactions'  is null.");
-            }
-            var rentalTransaction = await _context.RentalTransactions.FindAsync(id);
-            if (rentalTransaction != null)
-            {
-                _context.RentalTransactions.Remove(rentalTransaction);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool RentalTransactionExists(long id)
         {
           return (_context.RentalTransactions?.Any(e => e.RentalId == id)).GetValueOrDefault();
+        }
+
+        public bool SessionExists(string key)
+        {
+            return _context.LoginSessions
+                .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
         }
     }
 }

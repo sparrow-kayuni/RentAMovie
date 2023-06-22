@@ -1,4 +1,4 @@
-@model IEnumerable<RentAMovie_v3.Models.Customer>
+@model PaginatedList<RentAMovie_v3.Models.Customer>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,9 +18,10 @@
 <p>
     <a class="btn btn-primary" asp-action="Create" asp-controller="Customer">Add New</a>
 </p>
+
 <form asp-controller="RentalTransaction" asp-action="NewTransaction">
     <p>
-        Search: <input type="text" name="SearchString" placeholder="Search Customer By Last Name" />
+        Search: <input type="text" style="color: black" name="SearchString" placeholder="Search Customer By Last Name" />
         <input type="submit" value="Search" />
     </p>
 </form>
@@ -33,16 +34,12 @@
                     @Html.DisplayFor(modelItem => item.FName) @Html.DisplayFor(modelItem => item.MName) @Html.DisplayFor(modelItem => item.LName)
                 </div>
                 <div class="">
-                    @Html.DisplayFor(modelItem => item.Email) @Html.DisplayFor(modelItem => item.PhoneNo)
+                    @Html.DisplayFor(modelItem => item.Email)
                 </div>
                 <div class="">
                     @Html.DisplayFor(modelItem => item.Address.City)
                 </div>
-                @* <td>
-                    <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
-                </td> *@
             </a> 
         }
     </div>
+</div>
