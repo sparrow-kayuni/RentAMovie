@@ -19,11 +19,19 @@
     }
     </style>
 
-    <header>
-        <a asp-controller="Home" asp-action="Index">Home</a>
-        <a asp-controller="Movie" asp-action="Index">Movies</a>
-        <a asp-controller="Login" asp-action="Logout">Logout</a>
-    </header>
+ @if(!ViewContext.RouteData.Values["controller"].ToString().Equals("Login") || !ViewContext.RouteData.Values["action"].ToString().Equals("Index"))
+    {
+    <nav>
+    <ul>
+      <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+      <li><a asp-controller="Movie" asp-action="Index">Movies</a></li>
+      <li><a asp-controller="Customer" asp-action="Contact">Contact Customer</a></li>
+      <li><a asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+      <li><a asp-controller="Login" asp-action="Logout">Logout</a></li> 
+    </ul>
+     </nav>
+    }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

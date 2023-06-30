@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Customers";
 }
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Customers</title>
+  <link rel="stylesheet" href="css/style2.css">
+</head>
 
 <h1>Customers</h1>
 
@@ -38,6 +45,7 @@
                     </div>
                 </a>
                 <div style="display: flex; justify-content: center;">
+                    <a class="btn btn-primary" asp-action="Contact" asp-route-id="@item.CustomerId">Contact</a>
                     <a class="btn btn-secondary mx-1" asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a>
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>  
                 </div>

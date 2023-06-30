@@ -259,5 +259,10 @@ namespace RentAMovie_v3.Controllers
             return _context.LoginSessions
                 .Any(m => String.Equals(m.SessionKey, key) && m.TimeEnded == null);
         }
+
+         public IActionResult Contact()
+        {
+        return View();
+        }
     }
 }

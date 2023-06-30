@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TK\\Documents\\PROGRAMS\\RentAMovie_v2\\RentAMovie_v3\\RentAMovie_v3.csproj": {}
+    "C:\\Users\\Tapiwa\\Desktop\\CS235 Assignment\\Assignment\\RentAMovie\\RentAMovie_v3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TK\\Documents\\PROGRAMS\\RentAMovie_v2\\RentAMovie_v3\\RentAMovie_v3.csproj": {
+    "C:\\Users\\Tapiwa\\Desktop\\CS235 Assignment\\Assignment\\RentAMovie\\RentAMovie_v3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TK\\Documents\\PROGRAMS\\RentAMovie_v2\\RentAMovie_v3\\RentAMovie_v3.csproj",
+        "projectUniqueName": "C:\\Users\\Tapiwa\\Desktop\\CS235 Assignment\\Assignment\\RentAMovie\\RentAMovie_v3.csproj",
         "projectName": "RentAMovie_v3",
-        "projectPath": "C:\\Users\\TK\\Documents\\PROGRAMS\\RentAMovie_v2\\RentAMovie_v3\\RentAMovie_v3.csproj",
-        "packagesPath": "C:\\Users\\TK\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TK\\Documents\\PROGRAMS\\RentAMovie_v2\\RentAMovie_v3\\obj\\",
+        "projectPath": "C:\\Users\\Tapiwa\\Desktop\\CS235 Assignment\\Assignment\\RentAMovie\\RentAMovie_v3.csproj",
+        "packagesPath": "C:\\Users\\Tapiwa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tapiwa\\Desktop\\CS235 Assignment\\Assignment\\RentAMovie\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\TK\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Tapiwa\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -80,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.105\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
