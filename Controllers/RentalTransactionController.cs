@@ -79,9 +79,9 @@ namespace RentAMovie_v3.Controllers
 
             // check if customers list is empty
             if (_context.Customers == null)
-             {
-                     return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
-             }
+            {
+                    return Problem("Entity set 'RentAmovieContext.Movie'  is null.");
+            }
 
             var customers = from m in _context.Customers.Include(c => c.Address)
             select m;
@@ -146,16 +146,16 @@ namespace RentAMovie_v3.Controllers
                 currentCustomer = _context.Customers.FirstOrDefault(c => c.CustomerId == id);
             }
 
-            // when moie is searched for
+            // when movie is searched for
             if (!String.IsNullOrEmpty(searchString))
             {
                 movies = movies.Where(s => s.Title!.Contains(searchString));
             }
 
-            // if a movie is added 
+            // if a movie is selected 
             if(movieId != null)
             {
-                // if a rental id is given, delete it
+                // if a rental id is given, delete the rental from the database
                 if(rentalId != null)
                 {
                     var rentalTxn = await _context.RentalTransactions
@@ -193,7 +193,6 @@ namespace RentAMovie_v3.Controllers
                         if (!rentalExists)
                         {
                             _context.Add(rental);
-                            // Console.WriteLine("Rental ID: {0}", rental.RentalId);
                             await _context.SaveChangesAsync();
                             
                             ViewData["Error_Message"] = "";
@@ -209,9 +208,7 @@ namespace RentAMovie_v3.Controllers
                 moviesList.Transactions = _context.RentalTransactions
                     .Where(m => String.Equals(m.Session.SessionKey, session.SessionKey) 
                     && m.CustomerId == currentCustomer.CustomerId).ToList();       
-                
             }
-            
             moviesList.SetItems(movies.ToList());
 
             // number of results displayed

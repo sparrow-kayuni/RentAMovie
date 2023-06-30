@@ -1,17 +1,8 @@
 @model RentAMovie_v3.Models.ItemList<Movie>
 @{
-    ViewData["Title"] = "Index";
-    @* ViewBag.message = "Hey Theree"; *@
-    @* var transactions = ViewBag.rentalTransactions as ICollection<RentalTransaction>; *@
-    
-    @functions {
-        async Task OnPostAddMovie(Movie movie)
-        {
-            @* Model.AddedMovies.Add(movie); *@
-        }
-    }
-        
+    ViewData["Title"] = "Index";        
 }
+
 
 <h1>Select Movie</h1>
 
@@ -40,11 +31,11 @@
     </div>
 </div>
 @{
-    var a = ViewData["Error_Message"].ToString();
+    var message = ViewData["Error_Message"].ToString();
 }
 <div class="row">
     <div class="col-12 d-flex justify-content-center align-items-baseline" style="flex-direction: column;">
-        <div class="bg-danger card">@a</div>        
+        <div class="bg-danger card">@message</div>        
         @foreach (var item in Model) {
             <form asp-action="SelectMovie" method="post" class="card p-2 my-2 w-75 d-flex justify-content-between" style="flex-direction: row;">
                 <div class="" style="color: black;">

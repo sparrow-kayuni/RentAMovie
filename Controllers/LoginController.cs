@@ -33,6 +33,7 @@ namespace RentAMovie_v3.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string username, string password)
         {
+            // query the database for the current staff user    
             var staffUser = await _context.Staff.FirstOrDefaultAsync(c => c.StaffUserName == username);
 
             if (staffUser == null)
