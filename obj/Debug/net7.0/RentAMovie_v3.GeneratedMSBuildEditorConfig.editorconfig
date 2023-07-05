@@ -9,129 +9,129 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = RentAMovie_v3
 build_property.RootNamespace = RentAMovie_v3
-build_property.ProjectDir = C:\Users\Tapiwa\Desktop\CS235 Assignment\Assignment\RentAMovie\
+build_property.ProjectDir = c:\Users\Tapiwa\Desktop\CS235 Assignment\Assignment\RentAMovie\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Tapiwa\Desktop\CS235 Assignment\Assignment\RentAMovie
+build_property.MSBuildProjectDirectory = c:\Users\Tapiwa\Desktop\CS235 Assignment\Assignment\RentAMovie
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Contact.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ29udGFjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Create.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Delete.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Details.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Edit.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Index.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Customer/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Home/Index.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Home/Privacy.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Create.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Delete.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Details.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Edit.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Index.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Create.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Delete.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Details.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Edit.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Index.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Movie/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Create.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Delete.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Details.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Edit.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Index.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/NewTransaction.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/NewTransaction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cTmV3VHJhbnNhY3Rpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/SelectMovie.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/RentalTransaction/SelectMovie.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVudGFsVHJhbnNhY3Rpb25cU2VsZWN0TW92aWUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Shared/Error.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Shared/_ValidationScriptsPartial.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/_ViewImports.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/_ViewStart.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Shared/_Layout.cshtml]
+[c:/Users/Tapiwa/Desktop/CS235 Assignment/Assignment/RentAMovie/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ujzfra2d8q
