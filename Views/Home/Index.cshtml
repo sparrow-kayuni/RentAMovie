@@ -1,30 +1,46 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard";
 }
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style2.css">
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+      color: white;
+    }
 
-<style>
-  body {
-    text-align: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: rgb(255, 255, 255);
-  
-  }
+    button {
+      background-color: #3220a7;
+      color: white;
+      padding-top: 18px;
+      padding-bottom: 18px;
+      padding-left: 20px;
+      padding-right: 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 10px;
+      margin-left: 40px;
+      margin-top:20px;
+      width: 200px;
+    }
+    button:hover
+    {
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+      background-color: #4330c0;
+    }
+  </style>
+</head>
 
-  button {
-    background-color: #3220a7;
-    color: white;
-    padding: 18px 30px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 10px;
-  }
-  
-</style>
 <h1 style = "font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Administrator Dashboard</h1>
-<button><a asp-area="" asp-controller="RentalTransaction" asp-action="NewTransaction">New Rental</a></button>
-<button><a asp-area="" asp-controller="RentalTransaction" asp-action="Index">Rental Transactions</a></button>
-<button><a asp-area="" asp-controller="Customer" asp-action="Index">Customers</a></button>
-<button><a asp-area="" asp-controller="Movie" asp-action="Index">Movies</a></button>
+<button type="submit" ><a asp-area="" asp-controller="RentalTransaction" asp-action="NewTransaction">Make New Rental Transaction</a></button>
+<button><a asp-area="" asp-controller="RentalTransaction" asp-action="Index">View Rental Transactions</a></button>
+<button><a asp-area="" asp-controller="Customer" asp-action="Index">View Customers</a></button>
+<button><a asp-area="" asp-controller="Movie" asp-action="Index">View Movies</a></button>
 
 

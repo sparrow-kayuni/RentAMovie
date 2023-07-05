@@ -4,11 +4,41 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Movies</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Management</title>
+  <link rel="stylesheet" href="css/style3.css">
+  <link rel="stylesheet" href="css/style2.css">
+  <style>
+    body {
+      color: rgb(255, 255, 255);
+    }
+
+    button {
+      background-color: #3220a7;
+      color: white;
+      padding: 18px 30px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    
+  </style>
+</head>
+  <h1 style = "font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Movie List</h1>
+
+  <form action="/search" method="GET">
+    <input type="text" placeholder="Search by Title/ Genre..." style = "color: black">
+    <button type="submit">Search</button>
+  </form>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">New Movie</a>
+    <a class="btn btn-primary" asp-action="Create" style = "margin-top:20px; background-color: #3220a7; border-style:none;">Add New Movie</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +67,9 @@
                 @Html.DisplayFor(modelItem => item.UnitPrice)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
+                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
             </td>
         </tr>
 }

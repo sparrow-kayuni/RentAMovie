@@ -31,12 +31,13 @@ body {
 .sign-up-form
 
 {
-   width: 300px;
+   width: 370px;
    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
-    background:#000000;
+   background:#000000;
    padding: 20px;
    margin: 8% auto 0;
    text-align: center;
+   margin-top: 180px;
 }
 
 .sign-up-form h1
@@ -57,19 +58,6 @@ body {
     border: 1px solid #123ce0;
     outline: none;
     color: black;
-}
-
-button
-{
-    color: #2c20d3;
-    width: 100%;
-    padding: 10px;
-    border-radius: 20px;
-    font-size: 15px;
-    margin: 10px 0;
-    border: none;
-    outline: none;
-    cursor: pointer;
 }
 .signup-btn
 {
@@ -102,4 +90,49 @@ img
 {
     width: 200px;
     margin-top: -50px;
+}
+
+.Sign-In
+{
+  color: #2c20d3;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 15px;
+  margin: 10px 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.Sign-In:hover
+{
+  background-color:#2c20d3;
+  color:white;
+}
+
+nav ul {
+  text-align: center;
+  list-style-type: none;
+  margin-bottom: 50px;
+  padding-top: 5px;
+  background-color: #3220a7;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  margin-left: 40px;
+  margin-right: 40px;
+  display: block;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
